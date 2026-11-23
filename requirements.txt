@@ -5,4 +5,4 @@ pandas
 plotly
 scikit-learn
 scipy
-streamlit
+streamlit>=1.50

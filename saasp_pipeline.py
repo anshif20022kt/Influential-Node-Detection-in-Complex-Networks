@@ -585,11 +585,32 @@ def validate_rankings(
     return pd.DataFrame(results).sort_values(by="kendall_tau", ascending=False).reset_index(drop=True)
 
 
+def _looks_like_edge_list(path: Path) -> bool:
+    """Return True if the first data line holds two integer node ids."""
+    try:
+        with path.open("r", encoding="utf-8", errors="ignore") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line or line.startswith(("#", "%")):
+                    continue
+                parts = line.replace(",", " ").split()
+                if len(parts) < 2:
+                    return False
+                int(parts[0])
+                int(parts[1])
+                return True
+    except (OSError, ValueError):
+        return False
+    return False
+
+
 def available_local_datasets(base_path: str | Path) -> Dict[str, str]:
     base = Path(base_path)
     candidates = {}
-    for path in sorted(base.glob("*.txt")):
-        candidates[path.stem] = str(path)
-    for path in sorted(base.glob("*.csv")):
-        candidates[path.stem] = str(path)
+    for pattern in ("*.txt", "*.csv"):
+        for path in sorted(base.glob(pattern)):
+            if not _looks_like_edge_list(path):
+                continue  # skips requirements.txt and other non-graph files
+            label = path.stem.replace("__1_", "")
+            candidates[label] = str(path)
     return candidates

@@ -487,7 +487,7 @@ def main() -> None:
                 )
                 selection_state = st.plotly_chart(
                     network_chart,
-                    use_container_width=True,
+                    width="stretch",
                     key="network_node_inspector",
                     on_select="rerun",
                     selection_mode="points",
