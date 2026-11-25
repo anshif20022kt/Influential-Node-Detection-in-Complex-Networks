@@ -1,5 +1,7 @@
 # SAASP Influence Analyzer
 
+> 🚀 **Live Demo:** [Open the SAASP Influence Analyzer](https://influential-node-detection-in-complex.onrender.com)
+
 An interactive research dashboard for exploring influential nodes in complex networks through graph centrality, SAASP ranking, SIR spreading simulations and machine-learning predictions.
 
 <p>
